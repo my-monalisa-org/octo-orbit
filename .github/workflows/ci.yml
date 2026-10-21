@@ -1,0 +1,46 @@
+name: Mission control CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Validate the synthetic flight snapshot
+        run: node scripts/mission-health.ts
+  workflow-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Install the repository-pinned gh-aw compiler
+        run: gh extension install github/gh-aw --pin v0.92.6
+      - name: Compile and verify the committed lock
+        run: |
+          gh aw compile mission-health --strict --no-check-update
+          git diff --exit-code -- .github/workflows/mission-health.lock.yml .github/aw/actions-lock.json
