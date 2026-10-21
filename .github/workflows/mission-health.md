@@ -11,7 +11,7 @@ permissions:
   issues: read
   copilot-requests: write
 engine: copilot
-model: gpt-5-mini
+model: gpt-5.3-codex
 features:
   copilot-requests: true
 strict: true
