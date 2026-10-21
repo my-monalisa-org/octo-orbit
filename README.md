@@ -76,7 +76,7 @@ brief deliberately allows a later run to revisit the same snapshot.
   `COPILOT_GITHUB_TOKEN` or personal credential is configured.
 - Before running, a repository/organization administrator must allow GitHub
   Actions, the pinned gh-aw/actions and containers, workflow-token Copilot
-  requests, and the selected **`gpt-5-mini`** model. An organization Copilot
+  requests, and the selected **`gpt-5.3-codex`** model. An organization Copilot
   subscription with centralized billing is required for this authentication path.
   Copilot access, applicable
   organization/enterprise policy, model availability, and funded billing/quota
