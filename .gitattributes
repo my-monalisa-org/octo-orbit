@@ -1,0 +1,4 @@
+*.lock.yml linguist-generated=true
+package-lock.json linguist-generated=true
+
+.github/workflows/*.lock.yml linguist-generated=true
