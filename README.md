@@ -52,7 +52,7 @@ aging fixtures against the real clock.
 | Workflow | Trigger | Result |
 | --- | --- | --- |
 | [Mission control CI](.github/workflows/ci.yml) | Pull requests, pushes to `main`, manual dispatch | Install locked dependencies, test, type-check, build, validate health JSON, recompile gh-aw and check lock freshness. No AI calls. |
-| [Mission health flight check](.github/workflows/mission-health.md) | Mondays at **09:17 UTC**, plus manual dispatch | Copilot reads a prepared snapshot and up to 20 existing open flight briefs; prioritizes up to three interventions in one issue, or explicitly no-ops. |
+| [Mission health flight check](.github/workflows/mission-health.md) | Weekly on **Monday** at a compiler-scattered UTC time, plus manual dispatch | Copilot reads a prepared snapshot and up to 20 existing open flight briefs; prioritizes up to three interventions in one issue, or explicitly no-ops. |
 
 The agentic workflow is real **GitHub Agentic Workflows (gh-aw)** Markdown plus
 its generated `.lock.yml`, not an ordinary Actions script pretending to be AI.
@@ -60,6 +60,10 @@ It does not run on pull requests or pushes. Its schedule becomes eligible only
 after a reviewed merge to the default branch, subject to GitHub scheduling
 delays. Bootstrap CI never dispatches AI workflows; a manual AI run requires
 explicit maintainer approval for billable inference.
+
+The fuzzy schedule `weekly on monday` preserves the weekday and weekly cadence.
+gh-aw deterministically scatters the clock time; the generated `.lock.yml`
+records the resolved UTC cron rather than choosing a new random time each run.
 
 The 16-character fingerprint covers the synthetic snapshot and computed findings.
 An existing open brief for that fingerprint yields a no-op; safe-output title

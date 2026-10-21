@@ -3,8 +3,7 @@ name: Mission health flight check
 description: Prioritize actionable risks in the synthetic Octo Orbit mission backlog.
 intent: Help the crew resolve mission bottlenecks without generating duplicate flight briefs.
 on:
-  schedule:
-    - cron: "17 9 * * 1"
+  schedule: weekly on monday
   workflow_dispatch:
 permissions:
   contents: read
